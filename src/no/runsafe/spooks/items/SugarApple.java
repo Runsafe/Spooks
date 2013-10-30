@@ -22,7 +22,7 @@ public class SugarApple implements ISpookyItem
 	public void onConsumed(RunsafePlayer player)
 	{
 		player.removeItem(getItem(), 1);
-		Buff.Utility.Movement.IncreaseSpeed.duration(20).amplification(1).applyTo(player);
+		Buff.Utility.Movement.IncreaseSpeed.duration(20).amplification(5).applyTo(player);
 		player.sendMessage("Suddenly ... sugar rush!");
 	}
 }
