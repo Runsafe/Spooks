@@ -1,9 +1,10 @@
 package no.runsafe.spooks.items;
 
+import no.runsafe.framework.minecraft.Buff;
 import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
-public class TestApple implements ISpookyItem
+public class SugarApple implements ISpookyItem
 {
 	@Override
 	public Item getItem()
@@ -14,12 +15,14 @@ public class TestApple implements ISpookyItem
 	@Override
 	public String getName()
 	{
-		return "The Apple of Testing";
+		return "Sugar-coated Apple";
 	}
 
 	@Override
 	public void onConsumed(RunsafePlayer player)
 	{
-		player.removeItem(getItem(), 1); // Remove an apple.
+		player.removeItem(getItem(), 1);
+		Buff.Utility.Movement.IncreaseSpeed.duration(20).amplification(1).applyTo(player);
+		player.sendMessage("Suddenly ... sugar rush!");
 	}
 }

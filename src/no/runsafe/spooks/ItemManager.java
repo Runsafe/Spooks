@@ -53,10 +53,15 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 			RunsafeItem item = event.getItem();
 			if (item != null)
 			{
-				int entityID = item.getEntityId();
+				final int entityID = item.getEntityId();
 				if (respawn.containsKey(entityID))
 				{
-					spawnItem(respawn.get(entityID));
+					ItemManager.scheduler.startSyncTask(new Runnable() {
+						@Override
+						public void run() {
+							spawnItem(respawn.get(entityID));
+						}
+					}, random.nextInt(300) + 60);
 					respawn.remove(entityID);
 				}
 			}
@@ -77,16 +82,16 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	private void spawnAllItems()
 	{
 		for (RunsafeLocation location : spawnPoints)
-			respawn.put(spawnItem(location), location);
+			spawnItem(location);
 	}
 
-	private int spawnItem(RunsafeLocation location)
+	private void spawnItem(RunsafeLocation location)
 	{
 		ISpookyItem randomItem = items[random.nextInt(items.length)];
 		RunsafeMeta item = randomItem.getItem().getItem();
 		item.setDisplayName(randomItem.getName()); // Name the item.
 
-		return spawnWorld.dropItem(location, item).getEntityId();
+		respawn.put(spawnWorld.dropItem(location, item).getEntityId(), location);
 	}
 
 	private void wipeAllItems()
