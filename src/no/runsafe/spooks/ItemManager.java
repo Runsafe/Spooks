@@ -6,6 +6,7 @@ import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.minecraft.RunsafeLocation;
+import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.RunsafeWorld;
 import no.runsafe.framework.minecraft.block.RunsafeBlock;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
@@ -58,6 +59,8 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 			ISpookyItem randomItem = items[random.nextInt(items.length)];
 			RunsafeMeta item = randomItem.getItem().getItem();
 			item.setDisplayName(randomItem.getName()); // Name the item.
+
+			RunsafeServer.Instance.broadcastMessage(randomItem.getName());
 
 			spawnWorld.dropItem(location, randomItem.getItem().getItem());
 		}
