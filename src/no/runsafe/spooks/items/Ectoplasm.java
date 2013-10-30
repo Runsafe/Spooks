@@ -25,6 +25,7 @@ public class Ectoplasm implements ISpookyItem
 		RunsafeWorld world = RunsafeServer.Instance.getWorld("world");
 		if (world != null)
 		{
+			player.removeItem(getItem(), 1);
 			player.teleport(world, 3138, 143, 4433);
 			player.sendMessage("Compelled to drink the ectoplasm, the world around you suddenly changes...");
 		}
