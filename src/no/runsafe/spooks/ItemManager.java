@@ -9,6 +9,7 @@ import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.RunsafeWorld;
 import no.runsafe.framework.minecraft.block.RunsafeBlock;
+import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import no.runsafe.spooks.items.ISpookyItem;
@@ -60,9 +61,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 			RunsafeMeta item = randomItem.getItem().getItem();
 			item.setDisplayName(randomItem.getName()); // Name the item.
 
-			RunsafeServer.Instance.broadcastMessage(randomItem.getName());
-
-			spawnWorld.dropItem(location, randomItem.getItem().getItem());
+			spawnWorld.dropItem(location, item);
 		}
 	}
 
