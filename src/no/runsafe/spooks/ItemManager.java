@@ -2,18 +2,21 @@ package no.runsafe.spooks;
 
 import no.runsafe.framework.api.IConfiguration;
 import no.runsafe.framework.api.IScheduler;
+import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeWorld;
+import no.runsafe.framework.minecraft.block.RunsafeBlock;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
+import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import no.runsafe.spooks.items.ISpookyItem;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class ItemManager implements IConfigurationChanged, IPluginDisabled
+public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPlayerRightClick
 {
 	public ItemManager(IScheduler scheduler, ISpookyItem[] items)
 	{
@@ -70,6 +73,39 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled
 	{
 		// ToDo: Timer clean-up.
 		wipeAllItems();
+	}
+
+	@Override
+	public boolean OnPlayerRightClick(RunsafePlayer player, RunsafeMeta usingItem, RunsafeBlock targetBlock)
+	{
+		if (player != null && usingItem != null)
+		{
+			String itemName = usingItem.getDisplayName();
+			if (itemName != null)
+			{
+				ISpookyItem item = getItemByName(itemName);
+				if (item != null)
+				{
+					RunsafeWorld playerWorld = player.getWorld();
+					if (playerWorld != null && playerWorld.getUniverse().getName().equalsIgnoreCase("survival"))
+						item.onConsumed(player);
+					else
+						player.sendColouredMessage("&cYou cannot use that here.");
+
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	private ISpookyItem getItemByName(String name)
+	{
+		for (ISpookyItem item : items)
+			if (item.getName().equals(name))
+				return item;
+
+		return null;
 	}
 
 	private RunsafeWorld spawnWorld;
