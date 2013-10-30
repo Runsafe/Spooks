@@ -61,13 +61,14 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 			if (item != null)
 			{
 				final int entityID = item.getEntityId();
+				final RunsafeLocation location = respawn.get(entityID);
+
 				if (respawn.containsKey(entityID))
 				{
 					ItemManager.scheduler.startSyncTask(new Runnable() {
 						@Override
 						public void run() {
-							RunsafeLocation loc = respawn.get(entityID);
-							spawnItem(new RunsafeLocation(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
+							spawnItem(location);
 						}
 					}, random.nextInt(300) + 60);
 					respawn.remove(entityID);
