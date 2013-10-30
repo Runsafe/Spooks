@@ -9,16 +9,14 @@ import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeWorld;
 import no.runsafe.framework.minecraft.block.RunsafeBlock;
+import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerPickupItemEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import no.runsafe.spooks.items.ISpookyItem;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPlayerRightClick, IPlayerPickupItemEvent
 {
@@ -26,6 +24,15 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	{
 		ItemManager.scheduler = scheduler;
 		this.items = items;
+
+		scheduler.startSyncRepeatingTask(new Runnable() {
+			@Override
+			public void run()
+			{
+				wipeAllItems();
+				spawnAllItems();
+			}
+		}, 1800, 1800);
 	}
 
 	@Override
@@ -96,13 +103,18 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 
 	private void wipeAllItems()
 	{
-		// ToDo: implement
+		for (Map.Entry<Integer, RunsafeLocation> entry : respawn.entrySet())
+		{
+			RunsafeEntity entity = spawnWorld.getEntityById(entry.getKey());
+			if (entity != null)
+				entity.remove();
+		}
+		respawn.clear();
 	}
 
 	@Override
 	public void OnPluginDisabled()
 	{
-		// ToDo: Timer clean-up.
 		wipeAllItems();
 	}
 
