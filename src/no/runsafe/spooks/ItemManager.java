@@ -5,17 +5,19 @@ import no.runsafe.framework.api.IScheduler;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.minecraft.RunsafeLocation;
-import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.RunsafeWorld;
+import no.runsafe.spooks.items.ISpookyItem;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ItemManager implements IConfigurationChanged, IPluginDisabled
 {
-	public ItemManager(IScheduler scheduler)
+	public ItemManager(IScheduler scheduler, ISpookyItem[] items)
 	{
 		ItemManager.scheduler = scheduler;
+		this.items = items;
 	}
 
 	@Override
@@ -48,7 +50,10 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled
 	private void spawnAllItems()
 	{
 		for (RunsafeLocation location : spawnPoints)
-			RunsafeServer.Instance.broadcastMessage("Spawning something at: " + location.toString());
+		{
+			ISpookyItem randomItem = items[random.nextInt(items.length)];
+			spawnWorld.dropItem(location, randomItem.getItem().getItem());
+		}
 	}
 
 	private void wipeAllItems()
@@ -65,5 +70,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled
 
 	private RunsafeWorld spawnWorld;
 	private List<RunsafeLocation> spawnPoints = new ArrayList<RunsafeLocation>();
+	private ISpookyItem[] items;
+	private Random random = new Random();
 	public static IScheduler scheduler;
 }
