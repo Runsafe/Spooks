@@ -8,6 +8,7 @@ import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.RunsafeWorld;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ItemManager implements IConfigurationChanged, IPluginDisabled
@@ -63,6 +64,6 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled
 	}
 
 	private RunsafeWorld spawnWorld;
-	private List<RunsafeLocation> spawnPoints;
+	private List<RunsafeLocation> spawnPoints = new ArrayList<RunsafeLocation>;
 	public static IScheduler scheduler;
 }
