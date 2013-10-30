@@ -20,6 +20,6 @@ public class TestApple implements ISpookyItem
 	@Override
 	public void onConsumed(RunsafePlayer player)
 	{
-		player.damage(100D); // Carrrrrrrl, that kills people.
+		player.removeItem(getItem(), 1); // Remove an apple.
 	}
 }
