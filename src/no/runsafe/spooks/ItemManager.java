@@ -67,7 +67,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 						@Override
 						public void run() {
 							RunsafeLocation loc = respawn.get(entityID);
-							spawnItem(loc);
+							spawnItem(new RunsafeLocation(loc.getWorld(), loc.getX(), loc.getY(), loc.getZ()));
 						}
 					}, random.nextInt(300) + 60);
 					respawn.remove(entityID);
