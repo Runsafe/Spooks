@@ -64,6 +64,6 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled
 	}
 
 	private RunsafeWorld spawnWorld;
-	private List<RunsafeLocation> spawnPoints = new ArrayList<RunsafeLocation>;
+	private List<RunsafeLocation> spawnPoints = new ArrayList<RunsafeLocation>();
 	public static IScheduler scheduler;
 }
