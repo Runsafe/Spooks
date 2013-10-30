@@ -6,6 +6,7 @@ import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeWorld;
+import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
 import no.runsafe.spooks.items.ISpookyItem;
 
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled
 		for (RunsafeLocation location : spawnPoints)
 		{
 			ISpookyItem randomItem = items[random.nextInt(items.length)];
+			RunsafeMeta item = randomItem.getItem().getItem();
+			item.setDisplayName(randomItem.getName()); // Name the item.
+
 			spawnWorld.dropItem(location, randomItem.getItem().getItem());
 		}
 	}
