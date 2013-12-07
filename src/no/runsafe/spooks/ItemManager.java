@@ -2,13 +2,13 @@ package no.runsafe.spooks;
 
 import no.runsafe.framework.api.IConfiguration;
 import no.runsafe.framework.api.IScheduler;
+import no.runsafe.framework.api.block.IBlock;
 import no.runsafe.framework.api.event.player.IPlayerPickupItemEvent;
 import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeWorld;
-import no.runsafe.framework.minecraft.block.RunsafeBlock;
 import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerPickupItemEvent;
@@ -25,7 +25,8 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 		ItemManager.scheduler = scheduler;
 		this.items = items;
 
-		scheduler.startSyncRepeatingTask(new Runnable() {
+		scheduler.startSyncRepeatingTask(new Runnable()
+		{
 			@Override
 			public void run()
 			{
@@ -39,7 +40,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	public void OnConfigurationChanged(IConfiguration config)
 	{
 		spawnWorld = config.getConfigValueAsWorld("world");
-		if (spawnWorld == null)	return;
+		if (spawnWorld == null) return;
 
 		spawnPoints.clear();
 		List<String> locationStrings = config.getConfigValueAsList("locations");
@@ -65,9 +66,11 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 
 				if (respawn.containsKey(entityID))
 				{
-					ItemManager.scheduler.startSyncTask(new Runnable() {
+					ItemManager.scheduler.startSyncTask(new Runnable()
+					{
 						@Override
-						public void run() {
+						public void run()
+						{
 							spawnItem(location);
 						}
 					}, random.nextInt(300) + 60);
@@ -81,10 +84,10 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	{
 		String[] parts = locationString.split(",");
 		return new RunsafeLocation(
-				spawnWorld,
-				Double.parseDouble(parts[0]),
-				Double.parseDouble(parts[1]),
-				Double.parseDouble(parts[2])
+			spawnWorld,
+			Double.parseDouble(parts[0]),
+			Double.parseDouble(parts[1]),
+			Double.parseDouble(parts[2])
 		);
 	}
 
@@ -121,7 +124,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	}
 
 	@Override
-	public boolean OnPlayerRightClick(RunsafePlayer player, RunsafeMeta usingItem, RunsafeBlock targetBlock)
+	public boolean OnPlayerRightClick(RunsafePlayer player, RunsafeMeta usingItem, IBlock targetBlock)
 	{
 		if (player != null && usingItem != null)
 		{
