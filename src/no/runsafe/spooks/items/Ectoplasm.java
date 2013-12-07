@@ -1,9 +1,9 @@
 package no.runsafe.spooks.items;
 
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.Item;
 import no.runsafe.framework.minecraft.RunsafeServer;
 import no.runsafe.framework.minecraft.RunsafeWorld;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
 
 public class Ectoplasm implements ISpookyItem
 {
@@ -20,7 +20,7 @@ public class Ectoplasm implements ISpookyItem
 	}
 
 	@Override
-	public void onConsumed(RunsafePlayer player)
+	public void onConsumed(IPlayer player)
 	{
 		RunsafeWorld world = RunsafeServer.Instance.getWorld("world");
 		if (world != null)

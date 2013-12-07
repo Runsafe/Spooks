@@ -7,13 +7,13 @@ import no.runsafe.framework.api.event.player.IPlayerPickupItemEvent;
 import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
+import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.RunsafeWorld;
 import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerPickupItemEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
-import no.runsafe.framework.minecraft.player.RunsafePlayer;
 import no.runsafe.spooks.items.ISpookyItem;
 
 import java.util.*;
@@ -55,7 +55,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	@Override
 	public void OnPlayerPickupItemEvent(RunsafePlayerPickupItemEvent event)
 	{
-		RunsafePlayer player = event.getPlayer();
+		IPlayer player = event.getPlayer();
 		if (player != null)
 		{
 			RunsafeItem item = event.getItem();
@@ -124,7 +124,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	}
 
 	@Override
-	public boolean OnPlayerRightClick(RunsafePlayer player, RunsafeMeta usingItem, IBlock targetBlock)
+	public boolean OnPlayerRightClick(IPlayer player, RunsafeMeta usingItem, IBlock targetBlock)
 	{
 		if (player != null && usingItem != null)
 		{
