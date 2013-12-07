@@ -2,15 +2,15 @@ package no.runsafe.spooks;
 
 import no.runsafe.framework.api.IConfiguration;
 import no.runsafe.framework.api.IScheduler;
+import no.runsafe.framework.api.IWorld;
 import no.runsafe.framework.api.block.IBlock;
+import no.runsafe.framework.api.entity.IEntity;
 import no.runsafe.framework.api.event.player.IPlayerPickupItemEvent;
 import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.RunsafeLocation;
-import no.runsafe.framework.minecraft.RunsafeWorld;
-import no.runsafe.framework.minecraft.entity.RunsafeEntity;
 import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerPickupItemEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
@@ -110,7 +110,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	{
 		for (Map.Entry<Integer, RunsafeLocation> entry : respawn.entrySet())
 		{
-			RunsafeEntity entity = spawnWorld.getEntityById(entry.getKey());
+			IEntity entity = spawnWorld.getEntityById(entry.getKey());
 			if (entity != null)
 				entity.remove();
 		}
@@ -134,7 +134,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 				ISpookyItem item = getItemByName(itemName);
 				if (item != null)
 				{
-					RunsafeWorld playerWorld = player.getWorld();
+					IWorld playerWorld = player.getWorld();
 					if (playerWorld != null && playerWorld.getUniverse().getName().equalsIgnoreCase("survival"))
 						item.onConsumed(player);
 					else
@@ -156,7 +156,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 		return null;
 	}
 
-	private RunsafeWorld spawnWorld;
+	private IWorld spawnWorld;
 	private List<RunsafeLocation> spawnPoints = new ArrayList<RunsafeLocation>();
 	private HashMap<Integer, RunsafeLocation> respawn = new HashMap<Integer, RunsafeLocation>();
 	private ISpookyItem[] items;

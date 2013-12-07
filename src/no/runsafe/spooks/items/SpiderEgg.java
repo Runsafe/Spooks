@@ -1,8 +1,8 @@
 package no.runsafe.spooks.items;
 
+import no.runsafe.framework.api.IWorld;
 import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.Item;
-import no.runsafe.framework.minecraft.RunsafeWorld;
 import no.runsafe.framework.minecraft.entity.LivingEntity;
 
 public class SpiderEgg implements ISpookyItem
@@ -23,11 +23,11 @@ public class SpiderEgg implements ISpookyItem
 	public void onConsumed(IPlayer player)
 	{
 		player.removeItem(getItem(), 1);
-		RunsafeWorld playerWorld = player.getWorld();
+		IWorld playerWorld = player.getWorld();
 
 		if (playerWorld != null)
 		{
-			playerWorld.spawn(player.getLocation(), LivingEntity.CaveSpider.getEntityType());
+			playerWorld.spawnCreature(player.getLocation(), LivingEntity.CaveSpider.getId());
 			player.sendMessage("Picking up the egg it pops and a 'small' spider drops out, eek!");
 		}
 	}
