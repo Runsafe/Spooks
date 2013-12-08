@@ -1,12 +1,17 @@
 package no.runsafe.spooks.items;
 
+import no.runsafe.framework.api.IServer;
 import no.runsafe.framework.api.IWorld;
 import no.runsafe.framework.api.player.IPlayer;
 import no.runsafe.framework.minecraft.Item;
-import no.runsafe.framework.minecraft.RunsafeServer;
 
 public class Ectoplasm implements ISpookyItem
 {
+	public Ectoplasm(IServer server)
+	{
+		this.server = server;
+	}
+
 	@Override
 	public Item getItem()
 	{
@@ -22,7 +27,7 @@ public class Ectoplasm implements ISpookyItem
 	@Override
 	public void onConsumed(IPlayer player)
 	{
-		IWorld world = RunsafeServer.Instance.getWorld("world");
+		IWorld world = server.getWorld("world");
 		if (world != null)
 		{
 			player.removeItem(getItem(), 1);
@@ -30,4 +35,6 @@ public class Ectoplasm implements ISpookyItem
 			player.sendMessage("Compelled to drink the ectoplasm, the world around you suddenly changes...");
 		}
 	}
+
+	private final IServer server;
 }
