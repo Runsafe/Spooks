@@ -1,6 +1,7 @@
 package no.runsafe.spooks;
 
 import no.runsafe.framework.RunsafeConfigurablePlugin;
+import no.runsafe.framework.features.Events;
 import no.runsafe.spooks.items.Ectoplasm;
 import no.runsafe.spooks.items.RottenFish;
 import no.runsafe.spooks.items.SpiderEgg;
@@ -11,6 +12,10 @@ public class Plugin extends RunsafeConfigurablePlugin
 	@Override
 	protected void PluginSetup()
 	{
+		// Framework features
+		addComponent(Events.class);
+
+		// Plugin components
 		addComponent(ItemManager.class);
 
 		// Items
