@@ -10,7 +10,7 @@ import no.runsafe.spooks.items.SugarApple;
 public class Plugin extends RunsafeConfigurablePlugin
 {
 	@Override
-	protected void PluginSetup()
+	protected void pluginSetup()
 	{
 		// Framework features
 		addComponent(Events.class);
