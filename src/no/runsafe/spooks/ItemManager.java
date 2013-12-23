@@ -10,7 +10,6 @@ import no.runsafe.framework.api.event.player.IPlayerRightClick;
 import no.runsafe.framework.api.event.plugin.IConfigurationChanged;
 import no.runsafe.framework.api.event.plugin.IPluginDisabled;
 import no.runsafe.framework.api.player.IPlayer;
-import no.runsafe.framework.minecraft.RunsafeLocation;
 import no.runsafe.framework.minecraft.entity.RunsafeItem;
 import no.runsafe.framework.minecraft.event.player.RunsafePlayerPickupItemEvent;
 import no.runsafe.framework.minecraft.item.meta.RunsafeMeta;
@@ -62,7 +61,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 			if (item != null)
 			{
 				final int entityID = item.getEntityId();
-				final RunsafeLocation location = respawn.get(entityID);
+				final ILocation location = respawn.get(entityID);
 
 				if (respawn.containsKey(entityID))
 				{
@@ -80,11 +79,10 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 		}
 	}
 
-	private RunsafeLocation getLocationFromString(String locationString)
+	private ILocation getLocationFromString(String locationString)
 	{
 		String[] parts = locationString.split(",");
-		return new RunsafeLocation(
-			spawnWorld,
+		return spawnWorld.getLocation(
 			Double.parseDouble(parts[0]),
 			Double.parseDouble(parts[1]),
 			Double.parseDouble(parts[2])
@@ -93,11 +91,11 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 
 	private void spawnAllItems()
 	{
-		for (RunsafeLocation location : spawnPoints)
+		for (ILocation location : spawnPoints)
 			spawnItem(location);
 	}
 
-	private void spawnItem(RunsafeLocation location)
+	private void spawnItem(ILocation location)
 	{
 		ISpookyItem randomItem = items[random.nextInt(items.length)];
 		RunsafeMeta item = randomItem.getItem().getItem();
@@ -108,7 +106,7 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 
 	private void wipeAllItems()
 	{
-		for (Map.Entry<Integer, RunsafeLocation> entry : respawn.entrySet())
+		for (Map.Entry<Integer, ILocation> entry : respawn.entrySet())
 		{
 			IEntity entity = spawnWorld.getEntityById(entry.getKey());
 			if (entity != null)
@@ -157,8 +155,8 @@ public class ItemManager implements IConfigurationChanged, IPluginDisabled, IPla
 	}
 
 	private IWorld spawnWorld;
-	private List<RunsafeLocation> spawnPoints = new ArrayList<RunsafeLocation>();
-	private HashMap<Integer, RunsafeLocation> respawn = new HashMap<Integer, RunsafeLocation>();
+	private List<ILocation> spawnPoints = new ArrayList<ILocation>();
+	private HashMap<Integer, ILocation> respawn = new HashMap<Integer, ILocation>();
 	private ISpookyItem[] items;
 	private Random random = new Random();
 	public static IScheduler scheduler;
